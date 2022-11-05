@@ -4,9 +4,11 @@ import { AnyAction, combineReducers, EmptyObject } from "redux";
 import logger from "redux-logger";
 import { loadState, saveState } from "./localStorage";
 import { userReducer, UserState } from "./userSlice";
+import { roomReducer, RoomState } from "./roomSlice";
 
 const reducers = combineReducers({
-  user: userReducer
+  user: userReducer,
+  room: roomReducer
 });
 
 const middlewareConfig = {
@@ -35,6 +37,7 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = (): ThunkDispatch<
   EmptyObject & {
     user: UserState;
+    room: RoomState;
   },
   undefined,
   AnyAction

@@ -25,11 +25,14 @@
     "ethers": "^5.7.2",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-notifications-component": "^4.0.1",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "^4.0.3",
+    "react-spring": "^9.5.5",
+    "react-transition-group": "^4.4.5",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
     "typescript": "^4.8.4",
@@ -69,6 +72,8 @@
     ]
   },
   "devDependencies": {
+    "@types/react-copy-to-clipboard": "^5.0.4",
+    "@types/react-transition-group": "^4.4.5",
     "@types/redux-logger": "^3.0.9",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.18",

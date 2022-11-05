@@ -11,14 +11,25 @@ module.exports = {
       gray: {
         10: "rgba(0, 0, 0, 0.4)",
         20: "#FEFEFE",
+        22: "#EDEDED",
+        24: "#C2C2C2",
+        25: "#444343",
         30: "#333333",
+        35: "#302E2E",
+        40: "#373B46",
         45: "#5C5959",
         50: "#B0B0B0",
         100: "#999999",
+        120: "#928D8D",
+        150: "#8E8B8B",
         200: "#747474",
+        220: "#6F6969",
+        250: "#5B5858",
         300: "#474747",
         400: "#353535",
         500: "#323232",
+        520: "#2F2F2F",
+        550: "#2C2C2C",
         600: "#272727",
         "modal-bg": "rgb(39, 49, 56)",
         "modal-main": "rgb(199, 199, 199)",
@@ -32,19 +43,25 @@ module.exports = {
       green: colors.green,
       pink: colors.pink,
       purple: colors.purple,
-      blue: colors.blue,
+      blue: { ...colors.blue, 300: "#6C66E9" },
       orange: {
         ...colors.orange,
-        400: "#FF4F00"
+        400: "#FF4F00",
+        450: "#F8C110"
       },
       black: colors.black
     },
     screens: {
       xs: "475px",
       "8xl": "90rem",
+      "9xl": "108rem",
       ...defaultTheme.screens
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "home-bg": "url('/src/assets/homeBg.svg')"
+      }
+    },
     boxShadow: {
       sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
       DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
@@ -54,6 +71,8 @@ module.exports = {
       "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
       "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
       inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
+      room: "0 4px 10px 0 rgba(175, 175, 175, 0.1)",
+      button: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
       none: "none"
     },
     fontSize: {

@@ -13,6 +13,7 @@ import WalletSelect from "./components/WalletConnect";
 import LandingPage from "./pages/LandingPage";
 import CreateRoomPage from "./pages/CreateRoomPage";
 import RoomPage from "./pages/RoomPage";
+import NewRoomPage from "./pages/NewRoomPage";
 
 function App() {
   const [activatingConnector, setActivatingConnector] = useState();
@@ -48,6 +49,7 @@ function App() {
           <>
             <Route path="/" element={<LandingPage />} />
             <Route path="/create" element={<CreateRoomPage />} />
+            <Route path="/create/new" element={<NewRoomPage />} />
             <Route path="/room/:id" element={<RoomPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </>
