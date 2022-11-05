@@ -60,7 +60,7 @@ function Navbar() {
               <div className="flex flex-row">
                 <div className="h-full flex mr-4">
                   <a href="#">
-                    <img src={Logo} alt="BoltBolt" />
+                    <img className="h-12" src={Logo} alt="BoltBolt" />
                   </a>
                 </div>
                 <div className="ml-auto">
