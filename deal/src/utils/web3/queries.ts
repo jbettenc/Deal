@@ -230,12 +230,6 @@ export async function getUserNFTs(account: string) {
 
   return [
     {
-      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
-      tokenId: "45938119534326692567555572003288708546552",
-      name: "Parcel 134,-8",
-      image: "https://api.decentraland.org/v2/parcels/134/-8/map.png?size=24&width=1024&height=1024"
-    },
-    {
       contractAddress: "0x2c4929295042cb95ab1900d323d634ee8def3c7a",
       tokenId: "6789",
       name: "Cosmodino #6789",
@@ -258,12 +252,6 @@ export async function getUserNFTs(account: string) {
       tokenId: "5458",
       name: "Cosmodino #5458",
       image: "https://cosmodinos.s3.eu-west-3.amazonaws.com/images/5458.png"
-    },
-    {
-      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
-      tokenId: "17354400712967861636632104979020178784179",
-      name: "Parcel 50,-77",
-      image: "https://api.decentraland.org/v2/parcels/50/-77/map.png?size=24&width=1024&height=1024"
     },
     {
       contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
@@ -464,16 +452,16 @@ export async function getCollections() {
   let ret: any = null;
   ret = [
     {
-      contractAddress: "0x7bd29408f11d2bfc23c34f18275bbf23bb716bc7",
-      tokenId: "16938",
-      name: "Meebit #16938",
-      image: "http://meebits.app/meebitimages/characterimage?index=16938&type=full&imageType=jpg"
-    },
-    {
       contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
       tokenId: "246",
       name: "Abyssus",
       image: "https://cryptomotors.io/images/full_vehicle_body/abyssus_01_28_1_1.png"
+    },
+    {
+      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
+      tokenId: "45938119534326692567555572003288708546552",
+      name: "Parcel 134,-8",
+      image: "https://api.decentraland.org/v2/parcels/134/-8/map.png?size=24&width=1024&height=1024"
     },
     {
       contractAddress: "0x1dfe7ca09e99d10835bf73044a23b73fc20623df",
@@ -501,10 +489,10 @@ export async function getCollections() {
       image: "http://meebits.app/meebitimages/characterimage?index=10137&type=full&imageType=jpg"
     },
     {
-      contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
-      tokenId: "472",
-      name: "Neon Roadster",
-      image: "https://cryptomotors.io/images/full_vehicle_body/neonroadster_01_35_1_1.png"
+      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
+      tokenId: "17354400712967861636632104979020178784179",
+      name: "Parcel 50,-77",
+      image: "https://api.decentraland.org/v2/parcels/50/-77/map.png?size=24&width=1024&height=1024"
     },
     {
       contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
