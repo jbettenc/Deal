@@ -29,9 +29,12 @@ const RoomContent = (props: RoomContentProps) => {
       return;
     }
 
-    setTimeout(async () => {
+    const int = setInterval(async () => {
       const rc = await getRoomCreator(props.id);
       handleRoomCreator(rc);
+      if (rc) {
+        clearInterval(int);
+      }
     }, 100);
   }, [account]);
 
@@ -87,6 +90,7 @@ const RoomContent = (props: RoomContentProps) => {
       });
 
       const nftmd2 = await getNFTMetadata(nftObj2);
+      console.log(nftmd2);
       handleIdealOfferNftMetadata(nftmd2);
     }
   };

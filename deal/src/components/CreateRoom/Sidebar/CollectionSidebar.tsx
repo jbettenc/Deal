@@ -14,6 +14,8 @@ interface CollectionSidebarProps {
 }
 
 const CollectionSidebar = (props: CollectionSidebarProps) => {
+  const [loading, handleLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleAddSelected = (collection: any, index: number) => {
@@ -23,6 +25,11 @@ const CollectionSidebar = (props: CollectionSidebarProps) => {
   };
 
   const handleSubmit = () => {
+    if (loading) {
+      return;
+    }
+
+    handleLoading(true);
     props.onSubmit();
   };
 
@@ -75,7 +82,15 @@ const CollectionSidebar = (props: CollectionSidebarProps) => {
           className="h-[64px] rounded-[8px] px-[32px] bg-indigo-500 text-white font-semibold text-[18px] leading-[24px]"
           onClick={handleSubmit}
         >
-          Make a Deal!
+          {loading ? (
+            <>
+              <svg className="animate-spin w-8 h-8 fill-current shrink-0" viewBox="0 0 16 16">
+                <path d="M8 16a7.928 7.928 0 01-3.428-.77l.857-1.807A6.006 6.006 0 0014 8c0-3.309-2.691-6-6-6a6.006 6.006 0 00-5.422 8.572l-1.806.859A7.929 7.929 0 010 8c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" />
+              </svg>
+            </>
+          ) : (
+            "Make a Deal!"
+          )}
         </button>
       </div>
     </div>

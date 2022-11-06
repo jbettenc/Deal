@@ -88,9 +88,8 @@ const RoomSidebar = (props: RoomSidebarProps) => {
       if (!props.id) {
         return;
       }
-      console.log(props.id);
+
       const roomData: any = await getRoom(props.id);
-      console.log(nfts.filter((nft) => nft.selected));
       const { success, errorMsg, data } = await joinRoom(
         props.id,
         createOffer(
@@ -135,8 +134,8 @@ const RoomSidebar = (props: RoomSidebarProps) => {
           account,
           [],
           [],
-          collections.map((nft) => nft.contractAddress),
-          collections.map((nft) => nft.tokenId),
+          collections.filter((nft) => nft.selected).map((nft) => nft.contractAddress),
+          collections.filter((nft) => nft.selected).map((nft) => nft.tokenId),
           [],
           [],
           []

@@ -55,11 +55,11 @@ function Navbar() {
     <div className="w-full absolute">
       <nav className="select-none w-full">
         <div id="nav" className="w-full flex flex-col lg:flex-row fixed z-10">
-          <div className="w-full flex flex-col lg:flex-row mx-auto">
+          <div className="w-full flex flex-col lg:flex-row mx-auto max-w-7xl">
             <div id="nav-top" className="bg-transparent w-full px-4 lg:px-8 mt-12">
               <div className="flex flex-row">
                 <div className="h-full flex mr-4">
-                  <a href="#">
+                  <a href="/">
                     <img className="h-12" src={Logo} alt="BoltBolt" />
                   </a>
                 </div>

@@ -127,8 +127,6 @@ export function useDealApi() {
   };
 
   const joinRoom = async (roomId: string, offer: Offer): Promise<ResponseObject> => {
-    console.log(roomId);
-    console.log(offer);
     if (!instance) {
       return {
         success: false,
