@@ -44,7 +44,7 @@ const TokenInput = (props: TokenInputProps) => {
         </div>
         {openTokens && (
           <div
-            className={`absolute z-10 ${
+            className={`absolute z-[1] ${
               props.index > 2 ? "bottom-0" : "top-0"
             } right-0 left-0 divide-y divide-gray-400 bg-gray-300 border border-gray-400 rounded-[8px] h-[122px] overflow-hidden overflow-y-auto`}
           >

@@ -50,7 +50,7 @@ const RoomContent = (props: RoomContentProps) => {
         </div>
         <div className="flex justify-center items-center w-full h-full max-h-[556px] mt-[24px] relative px-[52px]">
           <div className="absolute w-full h-full max-w-[876px] max-h-[556px] bg-gray-520 shadow-room rounded-[12px] -rotate-3 mr-[12px]" />
-          <div className="z-10 w-full h-full max-w-[876px] max-h-[556px] bg-gray-520 shadow-room rounded-[12px] border border-gray-25">
+          <div className="z-[1] w-full h-full max-w-[876px] max-h-[556px] bg-gray-520 shadow-room rounded-[12px] border border-gray-25">
             <div className="w-full h-[304px] bg-gray-25 py-[24px] px-[44px] rounded-t-[12px]">
               <MyOfferContent nfts={props.RoomData?.nfts || []} tokens={props.RoomData?.tokens || []} />
             </div>
@@ -59,34 +59,35 @@ const RoomContent = (props: RoomContentProps) => {
             </div>
           </div>
         </div>
-        <div className="grow mt-[64px] w-full relative px-[52px]">
-          <div className="absolute bg-orange-450 left-0 right-0 bottom-0 top-[20px]" />
-          <div className="z-10 relative w-full flex justify-center">
-            <button
-              className="h-[64px] rounded-[8px] w-[362px] px-[32px] text-white font-medium text-[18px] leading-[24px] bg-indigo-500 shadow-button"
-              onClick={props.isNew ? onShareRoom : onMakeAnOffer}
-            >
-              {props.isNew ? "Share it!" : "Make an offer"}
-            </button>
-          </div>
-          {props.isNew && (
-            <div className="z-10 relative w-full flex justify-center mt-[12px]">
-              <div className="w-[362px] flex justify-between items-center">
-                <button
-                  className="rounded-[8px] w-[195px] text-gray-600 text-[18px] leading-[24px] h-[58px] bg-white px-[24px] font-medium shadow-button"
-                  onClick={onBackToEdit}
-                >
-                  Back to Edit
-                </button>
-                <button
-                  className="rounded-[8px] w-[141px] text-gray-600 text-[18px] leading-[24px] h-[58px] bg-white px-[24px] font-medium shadow-button"
-                  onClick={cancleNew}
-                >
-                  Cancel
-                </button>
-              </div>
+        <div className="w-full flex justify-center">
+          <div className="h-40 w-full bg-orange-450 absolute bottom-0 rounded-t-lg max-w-7xl mx-auto justify-center">
+            <div className="z-10 relative w-full flex justify-center -mt-[2rem]">
+              <button
+                className="h-[64px] rounded-[8px] w-[362px] px-[32px] text-white font-medium text-[18px] leading-[24px] bg-indigo-500 shadow-button"
+                onClick={props.isNew ? onShareRoom : onMakeAnOffer}
+              >
+                {props.isNew ? "Share it!" : "Make an offer"}
+              </button>
             </div>
-          )}
+            {props.isNew && (
+              <div className="z-10 relative w-full flex justify-center mt-[12px]">
+                <div className="w-[362px] flex justify-between items-center">
+                  <button
+                    className="rounded-[8px] w-[195px] text-gray-600 text-[18px] leading-[24px] h-[58px] bg-white px-[24px] font-medium shadow-button"
+                    onClick={onBackToEdit}
+                  >
+                    Back to Edit
+                  </button>
+                  <button
+                    className="rounded-[8px] w-[141px] text-gray-600 text-[18px] leading-[24px] h-[58px] bg-white px-[24px] font-medium shadow-button"
+                    onClick={cancleNew}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

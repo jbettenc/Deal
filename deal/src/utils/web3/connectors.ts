@@ -3,7 +3,7 @@ import { TorusConnector } from "@web3-react/torus-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
-export const INJECTED_SUPPORTED_CHAIN_IDS = [1];
+export const INJECTED_SUPPORTED_CHAIN_IDS = [1, 5];
 
 export const injected = new InjectedConnector({ supportedChainIds: INJECTED_SUPPORTED_CHAIN_IDS });
 

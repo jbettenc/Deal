@@ -11,25 +11,20 @@ interface TokenSidebarProps {
 }
 
 const TokenSidebar = (props: TokenSidebarProps) => {
-  const [selected, setSelected] = useState<any[]>([{ id: Date.now(), isNew: true }]);
+  const [selected, setSelected] = useState<Token[]>([]);
 
   const handleSelected = (val: string, token: any, index: number) => {
-    const selectedToken = { ...selected[index] };
     const updatedSelected = [...selected];
-    updatedSelected[index] = { id: Date.now(), value: val, token, isNew: false };
-    if (selectedToken.isNew) {
-      updatedSelected.push([{ isNew: true }]);
-      setSelected(updatedSelected);
-    }
+    updatedSelected[index] = Object.assign({}, updatedSelected[index], { selectedAmount: val });
     setSelected(updatedSelected);
   };
 
   const handleAddSelected = () => {
     // TODO: update after integrating with real nfts
-    const filteredTokens = selected.filter((item: any) => !item.isNew && item.value);
+    const filteredTokens = selected.filter((item: any) => item.selectedAmount > 0);
     if (filteredTokens.length) {
       props.onSetTokens(filteredTokens);
-      setSelected([{ id: Date.now(), isNew: true }]);
+      setSelected([]);
     }
   };
 

@@ -1,3 +1,5 @@
+import NFTPreview from "../../../assets/nftpreview.svg";
+
 interface NFTCardProps {
   nft: any;
   style?: any;
@@ -19,12 +21,20 @@ const NFTCard = (props: NFTCardProps) => {
       onClick={onClick}
     >
       <div className="w-full h-[89px] rounded-[8px]" style={props.style}>
-        <img src={nft.image} className="w-full h-full rounded-[8px]" alt={nft.name} />
+        <img
+          src={nft.image}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = NFTPreview;
+          }}
+          className="w-full h-full rounded-[8px] object-contain"
+          alt={nft.name}
+        />
       </div>
       <div className="mt-[9px] text-[10px] leading-[10px] text-white font-normal" style={props.fontStyle}>
         {nft.name}
       </div>
-      <div className="mt-[4px] text-[8px] leading-[8px] text-white font-light">#{nft.id}</div>
+      <div className="mt-[4px] text-[8px] leading-[8px] text-white font-light break-words">#{nft.tokenId}</div>
     </div>
   );
 };

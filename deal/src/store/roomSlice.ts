@@ -5,11 +5,13 @@ export type IStep = "my-nft" | "add-token" | "add-collection" | "final" | null;
 const getNextStep = (step: IStep, dir = 1): IStep => {
   switch (step) {
     case "my-nft":
-      return dir === 1 ? "add-token" : "my-nft";
+      // return dir === 1 ? "add-token" : "my-nft";
+      return dir === 1 ? "add-collection" : "my-nft";
     case "add-token":
       return dir === 1 ? "add-collection" : "my-nft";
     case "add-collection":
-      return dir === 1 ? "final" : "add-token";
+      // return dir === 1 ? "final" : "add-token";
+      return dir === 1 ? "final" : "my-nft";
     case "final":
       return dir === 1 ? "final" : "add-collection";
     default:
@@ -27,7 +29,8 @@ export interface IRoom {
 
 export interface RoomState {
   step: IStep;
-  nfts: any[];
+  nfts: NFTMetadata[];
+  selectedNfts: NFTMetadata[];
   tokens: any[];
   collections: any[];
   note: string;
@@ -40,6 +43,7 @@ const roomSlice = createSlice({
   initialState: {
     step: "my-nft",
     nfts: [],
+    selectedNfts: [],
     tokens: [],
     collections: [],
     note: "",
@@ -67,6 +71,9 @@ const roomSlice = createSlice({
     },
     setNfts(state, action) {
       state.nfts = action.payload;
+    },
+    setSelectedNfts(state, action) {
+      state.selectedNfts = action.payload;
     },
     setTokens(state, action) {
       state.tokens = action.payload;
@@ -99,6 +106,7 @@ export const {
   initializeRoom,
   setNewRoom,
   setNfts,
+  setSelectedNfts,
   setTokens,
   setCollections,
   setNotes,

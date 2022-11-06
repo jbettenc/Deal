@@ -89,9 +89,9 @@ function UserMenu(props: UserMenuProps) {
             <div
               ref={itemRef}
               id="account-dropdown"
-              className={`z-40 ${
+              className={`z-20 ${
                 showProfile ? "block" : "hidden"
-              } text-white text-12 w-72 sm:text-15 sm:w-80 font-normal z-10 origin-top-right absolute right-0 mt-2 rounded-md shadow-xl pt-3 bg-gray-600 border border-gray-400 focus:outline-none`}
+              } text-white text-12 w-72 sm:text-15 sm:w-80 font-normal origin-top-right absolute right-0 mt-2 rounded-md shadow-xl pt-3 bg-gray-600 border border-gray-400 focus:outline-none`}
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="user-menu-button"

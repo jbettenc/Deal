@@ -6,7 +6,6 @@ import { BackArrowIcon } from "../icons";
 import NFTSidebar from "./Sidebar/NFTSidebar";
 import TokenSidebar from "./Sidebar/TokenSidebar";
 import CollectionSidebar from "./Sidebar/CollectionSidebar";
-import { MY_NFTS, COLLECTIONS_DATA, TOKEN_DATA } from "../../utils/servicies/mockData";
 import UserMenu from "../UserMenu";
 import { RootState } from "../../store/root";
 import { useSelector } from "react-redux";
@@ -14,10 +13,10 @@ import { useSelector } from "react-redux";
 const EMPTY_TEXT = "No offer yet. Select NFTs that you want to swap.";
 
 interface RoomSidebarProps {
+  loading: boolean;
   step: IStep;
   notes: string;
   nfts: any[];
-  collections: any[];
   tokens: any[];
   goToNext: () => void;
   goToPrev: () => void;
@@ -30,18 +29,16 @@ interface RoomSidebarProps {
 }
 
 const RoomSidebar = (props: RoomSidebarProps) => {
-  const [myTokens, setMyTokens] = useState<any[]>([]);
-  const [collections, setCollections] = useState<any[]>([]);
   const [subMenuActive, handleSubMenuActive] = useState(false);
 
   const { ethAlias, ethAvatar } = useSelector((state: RootState) => state.user);
+  const { collections } = useSelector((state: RootState) => state.room);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     // fetch nfts and collections
-    setMyTokens([...MY_NFTS, ...MY_NFTS]);
-    setCollections([...COLLECTIONS_DATA, ...COLLECTIONS_DATA]);
+    // setCollections([...COLLECTIONS_DATA, ...COLLECTIONS_DATA]);
   }, []);
 
   useEffect(() => {
@@ -72,7 +69,7 @@ const RoomSidebar = (props: RoomSidebarProps) => {
   };
 
   const handleMakeRoom = () => {
-    const { nfts, tokens, collections, notes, onCreateRoom, onInitialize } = props;
+    const { nfts, tokens, notes, onCreateRoom, onInitialize } = props;
     onCreateRoom({ nfts, tokens, collections, note: notes, id: "new" });
     setTimeout(() => {
       onInitialize();
@@ -92,11 +89,19 @@ const RoomSidebar = (props: RoomSidebarProps) => {
   const renderSidebar = () => {
     switch (props.step) {
       case "my-nft":
-        return <NFTSidebar nfts={myTokens} data={props.nfts} goToNext={props.goToNext} onSetNFTs={props.onSetNFTs} />;
+        return (
+          <NFTSidebar
+            loading={props.loading}
+            nfts={props.nfts}
+            data={props.nfts}
+            goToNext={props.goToNext}
+            onSetNFTs={props.onSetNFTs}
+          />
+        );
       case "add-token":
         return (
           <TokenSidebar
-            tokens={TOKEN_DATA}
+            tokens={props.tokens}
             data={props.tokens}
             goToNext={props.goToNext}
             onSetTokens={props.onSetTokens}
@@ -107,7 +112,7 @@ const RoomSidebar = (props: RoomSidebarProps) => {
           <CollectionSidebar
             collections={collections}
             notes={props.notes}
-            data={props.collections}
+            data={collections}
             onSetCollections={props.onSetCollections}
             onSetNotes={props.onSetNotes}
             onSubmit={handleMakeRoom}
@@ -119,7 +124,7 @@ const RoomSidebar = (props: RoomSidebarProps) => {
   };
 
   return (
-    <div className="flex w-full h-full flex-col py-[54px]">
+    <div className="flex w-full h-full flex-col py-[54px] max-h-screen overflow-auto">
       <div className="flex flex-row w-full justify-between">
         <div
           className="text-gray-22 text-xl font-normal w-[80px] inline-flex items-baseline gap-[12px] cursor-pointer ml-[32px] 8xl:ml-[60px]"

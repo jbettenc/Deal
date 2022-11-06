@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import NFTCard from "./NFTCard";
+import { useDispatch } from "react-redux";
+import { setCollections } from "../../../store/roomSlice";
 
 interface CollectionSidebarProps {
   collections: any[];
@@ -12,20 +14,12 @@ interface CollectionSidebarProps {
 }
 
 const CollectionSidebar = (props: CollectionSidebarProps) => {
-  const [selected, setSelected] = useState<any[]>([]);
+  const dispatch = useDispatch();
 
   const handleAddSelected = (collection: any, index: number) => {
-    // TODO: update after integrating with real nfts
-    const newSelected = [...selected];
-    if (selected.includes(index)) {
-      newSelected.splice(selected.indexOf(index), 1);
-    } else {
-      newSelected.push(index);
-    }
-    setSelected(newSelected);
-    if (newSelected.length) {
-      props.onSetCollections(props.collections.slice(0, newSelected.length));
-    }
+    const tmp = [...props.collections];
+    tmp[index] = Object.assign({}, tmp[index], { selected: true });
+    dispatch(setCollections(tmp));
   };
 
   const handleSubmit = () => {
@@ -33,6 +27,9 @@ const CollectionSidebar = (props: CollectionSidebarProps) => {
   };
 
   const renderCards = (item: any, index: number) => {
+    if (item.selected) {
+      return null;
+    }
     return (
       <div
         key={`${item.id}-${index}`}
@@ -40,10 +37,10 @@ const CollectionSidebar = (props: CollectionSidebarProps) => {
         onClick={() => handleAddSelected(item, index)}
       >
         <div className="absolute z-20 -rotate-[7deg] -ml-[8px] w-full h-full">
-          <NFTCard nft={item.collections[0]} fullWidth fullHeight />
+          <NFTCard nft={item} fullWidth fullHeight />
         </div>
         <div className="absolute z-10 rotate-[4deg] -mr-[10px] w-full h-full">
-          <NFTCard nft={item.collections[0]} fullWidth fullHeight />
+          <NFTCard nft={item} fullWidth fullHeight />
         </div>
       </div>
     );
@@ -57,7 +54,7 @@ const CollectionSidebar = (props: CollectionSidebarProps) => {
       </div>
       <div className="grow w-full mt-[46px] collection-list-wrapper">
         <div className="w-full h-full overflow-hidden overflow-y-auto px-[32px] 9xl:px-[60px]">
-          <div className="w-full flex flex-wrap pl-[20px] gap-[24px] 8xl:gap-[28px]">
+          <div className="w-full flex flex-wrap justify-around pl-[20px] gap-[24px] 8xl:gap-[28px]">
             {props.collections.map(renderCards)}
           </div>
         </div>
