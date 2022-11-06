@@ -55,7 +55,7 @@ const CollectionSidebar = (props: CollectionSidebarProps) => {
 
   return (
     <div className="flex w-full h-full flex-col">
-      <div className="text-gray-22 text-2xl font-bold mb-[24px] px-[32px] 8xl:px-[60px]">Add Collection</div>
+      <div className="text-gray-22 text-2xl font-bold mb-[24px] px-[32px] 8xl:px-[60px]">Add NFT</div>
       <div className="w-full px-[32px] 8xl:px-[60px]">
         <SearchInput />
       </div>

@@ -248,48 +248,6 @@ export async function getUserNFTs(account: string) {
       image: "https://cosmodinos.s3.eu-west-3.amazonaws.com/images/7963.png"
     },
     {
-      contractAddress: "0xe7e07f9dff6b48eba32641c53816f25368297d22",
-      tokenId: "8038",
-      name: "Chill RX 8038",
-      image: "ipfs://QmUUJmconqQdBTv5Uf4KSwa3xyGzYpgJpXxfTDEqFdiCbd"
-    },
-    {
-      contractAddress: "0x2b1037def2aa4ed427627903bdef9bdd27ae1ea3",
-      tokenId: "208",
-      name: "Square Bear #209",
-      image: "ipfs://QmVnf1pvrxDdBawqvdYtvxVhYu4CwXrT7KtSUtthx8apJG/209.png"
-    },
-    {
-      contractAddress: "0x2b1037def2aa4ed427627903bdef9bdd27ae1ea3",
-      tokenId: "210",
-      name: "Square Bear #211",
-      image: "ipfs://QmVnf1pvrxDdBawqvdYtvxVhYu4CwXrT7KtSUtthx8apJG/211.png"
-    },
-    {
-      contractAddress: "0x2b1037def2aa4ed427627903bdef9bdd27ae1ea3",
-      tokenId: "209",
-      name: "Square Bear #210",
-      image: "ipfs://QmVnf1pvrxDdBawqvdYtvxVhYu4CwXrT7KtSUtthx8apJG/210.png"
-    },
-    {
-      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
-      tokenId: "29604565922121646321313590846563834396533",
-      name: "Parcel 86,-139",
-      image: "https://api.decentraland.org/v2/parcels/86/-139/map.png?size=24&width=1024&height=1024"
-    },
-    {
-      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
-      tokenId: "17354400712967861636632104979020178784178",
-      name: "Parcel 50,-78",
-      image: "https://api.decentraland.org/v2/parcels/50/-78/map.png?size=24&width=1024&height=1024"
-    },
-    {
-      contractAddress: "0xcb4307f1c3b5556256748ddf5b86e81258990b3c",
-      tokenId: "1343",
-      name: "The Other Side #1343",
-      image: "ipfs://Qmf5KDRprfQEMsgn6fd2cr3xo3prxP3UjcAsRhc5RXxdM9/1343.png"
-    },
-    {
       contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
       tokenId: "40833884030512615615604952891812185374702",
       name: "Parcel 119,-18",
@@ -326,70 +284,16 @@ export async function getUserNFTs(account: string) {
       image: "https://api.decentraland.org/v2/parcels/123/-15/map.png?size=24&width=1024&height=1024"
     },
     {
-      contractAddress: "0xe7e07f9dff6b48eba32641c53816f25368297d22",
-      tokenId: "8041",
-      name: "Chill RX 8041",
-      image: "ipfs://Qmcihq81tTqE58Qg4pkfYehoY8Pmf6AjTErH5wq3Nc7PQ8"
-    },
-    {
       contractAddress: "0x86c35fa9665002c08801805280ff6a077b23c98a",
       tokenId: "7590",
       name: "CatBlox #7590",
       image: "https://catblox.mypinata.cloud/ipfs/QmQkd6zricHSK2n4maNXTeayZFdnfVYoqDkq15z5rk7yCe/7590.png"
     },
     {
-      contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
-      tokenId: "246",
-      name: "Abyssus",
-      image: "https://cryptomotors.io/images/full_vehicle_body/abyssus_01_28_1_1.png"
-    },
-    {
       contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
       tokenId: "42535295865117307932921825928971026431984",
       name: "Parcel 124,-16",
       image: "https://api.decentraland.org/v2/parcels/124/-16/map.png?size=24&width=1024&height=1024"
-    },
-    {
-      contractAddress: "0xc17427e65dd2bd6fb6a1a7a51b27af96b5205029",
-      tokenId: "245",
-      name: "",
-      image: ""
-    },
-    {
-      contractAddress: "0xd6c1693653b1145f01b4052c8a3fb5b1a13718dd",
-      tokenId: "216",
-      name: "",
-      image: ""
-    },
-    {
-      contractAddress: "0xe7e07f9dff6b48eba32641c53816f25368297d22",
-      tokenId: "8039",
-      name: "Chill RX 8039",
-      image: "ipfs://QmVUqjScTxZuUUDqDxw8pofvhsZtwXt3dkrdFgmRfpTrBD"
-    },
-    {
-      contractAddress: "0xe7e07f9dff6b48eba32641c53816f25368297d22",
-      tokenId: "8040",
-      name: "Chill RX 8040",
-      image: "ipfs://QmaKy9E5zZW3fQx4rATSRgi3bwK73CUFvYD7joik9xmfhw"
-    },
-    {
-      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
-      tokenId: "50021507937377954129116067292469927083997",
-      name: "Parcel 146,-35",
-      image: "https://api.decentraland.org/v2/parcels/146/-35/map.png?size=24&width=1024&height=1024"
-    },
-    {
-      contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
-      tokenId: "360",
-      name: "",
-      image: ""
-    },
-    {
-      contractAddress: "0xe7e07f9dff6b48eba32641c53816f25368297d22",
-      tokenId: "8037",
-      name: "Chill RX 8037",
-      image: "ipfs://QmS5zfGBwivhAYoBku1XUWYGdCXjEPohHEDcchbSNRfcmR"
     },
     {
       contractAddress: "0x47a00fc8590c11be4c419d9ae50dec267b6e24ee",
@@ -415,12 +319,6 @@ export async function getUserNFTs(account: string) {
       tokenId: "7847",
       name: "alien fren #7847",
       image: "https://gateway.pinata.cloud/ipfs/QmbJ3XshhuW5qiJJvAks4UDvNQhwH2UkpNiC1aLm6R2LPn/7847.png"
-    },
-    {
-      contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
-      tokenId: "472",
-      name: "Neon Roadster",
-      image: "https://cryptomotors.io/images/full_vehicle_body/neonroadster_01_35_1_1.png"
     }
   ];
 }
@@ -572,10 +470,10 @@ export async function getCollections() {
       image: "http://meebits.app/meebitimages/characterimage?index=16938&type=full&imageType=jpg"
     },
     {
-      contractAddress: "0x81ae0be3a8044772d04f32398bac1e1b4b215aa8",
-      tokenId: "164",
-      name: "Dreadfulz #164",
-      image: "ipfs://QmWkwea1rcKspv5FB7ApvFec68rL3ZaDEgSovFjudgFnfu/164.png"
+      contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
+      tokenId: "246",
+      name: "Abyssus",
+      image: "https://cryptomotors.io/images/full_vehicle_body/abyssus_01_28_1_1.png"
     },
     {
       contractAddress: "0x1dfe7ca09e99d10835bf73044a23b73fc20623df",
@@ -585,10 +483,34 @@ export async function getCollections() {
         "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaW5ZTWluIG1lZXQiIHZpZXdCb3g9IjAgMCAzNTAgMzUwIj48c3R5bGU+LmJhc2UgeyBmaWxsOiB3aGl0ZTsgZm9udC1mYW1pbHk6IHNlcmlmOyBmb250LXNpemU6IDE0cHg7IH08L3N0eWxlPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9ImJsYWNrIiAvPjx0ZXh0IHg9IjEwIiB5PSIyMCIgY2xhc3M9ImJhc2UiPkJvb2s8L3RleHQ+PHRleHQgeD0iMTAiIHk9IjQwIiBjbGFzcz0iYmFzZSI+RGVtb24gSHVzazwvdGV4dD48dGV4dCB4PSIxMCIgeT0iNjAiIGNsYXNzPSJiYXNlIj5HcmVhdCBIZWxtPC90ZXh0Pjx0ZXh0IHg9IjEwIiB5PSI4MCIgY2xhc3M9ImJhc2UiPkJyaWdodHNpbGsgU2FzaDwvdGV4dD48dGV4dCB4PSIxMCIgeT0iMTAwIiBjbGFzcz0iYmFzZSI+U2lsayBTbGlwcGVyczwvdGV4dD48dGV4dCB4PSIxMCIgeT0iMTIwIiBjbGFzcz0iYmFzZSI+R2xvdmVzPC90ZXh0Pjx0ZXh0IHg9IjEwIiB5PSIxNDAiIGNsYXNzPSJiYXNlIj5BbXVsZXQ8L3RleHQ+PHRleHQgeD0iMTAiIHk9IjE2MCIgY2xhc3M9ImJhc2UiPlRpdGFuaXVtIFJpbmc8L3RleHQ+PC9zdmc+"
     },
     {
+      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
+      tokenId: "29604565922121646321313590846563834396533",
+      name: "Parcel 86,-139",
+      image: "https://api.decentraland.org/v2/parcels/86/-139/map.png?size=24&width=1024&height=1024"
+    },
+    {
+      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
+      tokenId: "17354400712967861636632104979020178784178",
+      name: "Parcel 50,-78",
+      image: "https://api.decentraland.org/v2/parcels/50/-78/map.png?size=24&width=1024&height=1024"
+    },
+    {
       contractAddress: "0x7bd29408f11d2bfc23c34f18275bbf23bb716bc7",
       tokenId: "10137",
       name: "Meebit #10137",
       image: "http://meebits.app/meebitimages/characterimage?index=10137&type=full&imageType=jpg"
+    },
+    {
+      contractAddress: "0x30a2fa3c93fb9f93d1efeffd350c6a6bb62ba000",
+      tokenId: "472",
+      name: "Neon Roadster",
+      image: "https://cryptomotors.io/images/full_vehicle_body/neonroadster_01_35_1_1.png"
+    },
+    {
+      contractAddress: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
+      tokenId: "50021507937377954129116067292469927083997",
+      name: "Parcel 146,-35",
+      image: "https://api.decentraland.org/v2/parcels/146/-35/map.png?size=24&width=1024&height=1024"
     },
     {
       contractAddress: "0xce25e60a89f200b1fa40f6c313047ffe386992c3",
