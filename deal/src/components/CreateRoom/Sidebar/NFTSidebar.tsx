@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import NFTCard from "./NFTCard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNfts } from "../../../store/roomSlice";
+import { useDealApi } from "../../../utils/hooks/useDealApi";
+import { useWeb3React } from "@web3-react/core";
+import { RootState } from "../../../store/root";
 
 interface NFTSidebarProps {
   loading: boolean;
@@ -10,12 +13,21 @@ interface NFTSidebarProps {
   data: any[];
   goToNext: () => void;
   onSetNFTs: (data?: any[]) => void;
+  offer?: boolean;
+  id?: string;
+  onSubmit?: any;
 }
 
 const NFTSidebar = (props: NFTSidebarProps) => {
   const [selected, setSelected] = useState<any[]>([]);
 
+  const { joinRoom, createOffer, getRoom } = useDealApi();
+
+  const { nfts } = useSelector((state: RootState) => state.room);
+
   const dispatch = useDispatch();
+
+  const { account } = useWeb3React();
 
   const handleSelect = (index: number) => {
     // TODO: check with id of nfts
@@ -52,6 +64,16 @@ const NFTSidebar = (props: NFTSidebarProps) => {
         <NFTCard nft={item} active={selected.includes(index)} onClick={() => handleSelect(index)} />
       </div>
     );
+  };
+
+  const swapNFTs = async () => {
+    if (!props.id || !account) {
+      return;
+    }
+
+    if (props.onSubmit) {
+      props.onSubmit();
+    }
   };
 
   if (props.loading) {
@@ -97,9 +119,9 @@ const NFTSidebar = (props: NFTSidebarProps) => {
         {props.data?.length > 0 && (
           <button
             className="h-[64px] rounded-[8px] px-[32px] bg-orange-450 text-black font-semibold text-[18px] leading-[24px]"
-            onClick={props.goToNext}
+            onClick={props.offer ? swapNFTs : props.goToNext}
           >
-            Next
+            {props.offer ? "Swap" : "Next"}
           </button>
         )}
         <button

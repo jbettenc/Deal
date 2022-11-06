@@ -15,6 +15,7 @@ import CreateRoomPage from "./pages/CreateRoomPage";
 import RoomPage from "./pages/RoomPage";
 import NewRoomPage from "./pages/NewRoomPage";
 import "react-notifications-component/dist/theme.css";
+import MakeOfferPage from "./pages/MakeOfferPage";
 
 function App() {
   const [activatingConnector, setActivatingConnector] = useState();
@@ -51,6 +52,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/create" element={<CreateRoomPage />} />
             <Route path="/room/:id" element={<RoomPage />} />
+            <Route path="/offer/:id" element={<MakeOfferPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </>
         </Routes>

@@ -126,7 +126,9 @@ export function useDealApi() {
     return ret;
   };
 
-  const joinRoom = async (roomName: string, offer: Offer): Promise<ResponseObject> => {
+  const joinRoom = async (roomId: string, offer: Offer): Promise<ResponseObject> => {
+    console.log(roomId);
+    console.log(offer);
     if (!instance) {
       return {
         success: false,
@@ -138,7 +140,6 @@ export function useDealApi() {
       success: false
     };
 
-    const roomId = ethers.utils.hashMessage(roomName);
     await instance
       .joinRoom(roomId, offer)
       .then(async (tx: any) => {
@@ -207,7 +208,7 @@ export function useDealApi() {
     return ret;
   };
 
-  const swap = async (roomName: string, counterParty: string): Promise<ResponseObject> => {
+  const swap = async (roomId: string, counterParty: string): Promise<ResponseObject> => {
     if (!instance) {
       return {
         success: false,
@@ -219,7 +220,6 @@ export function useDealApi() {
       success: false
     };
 
-    const roomId = ethers.utils.hashMessage(roomName);
     await instance
       .swap(roomId, counterParty)
       .then(async (tx: any) => {

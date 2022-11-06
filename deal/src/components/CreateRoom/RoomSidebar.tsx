@@ -10,7 +10,7 @@ import UserMenu from "../UserMenu";
 import { RootState } from "../../store/root";
 import { useSelector } from "react-redux";
 import { BigNumber, ethers } from "ethers";
-import { guidGenerator } from "../../utils/misc";
+import { guidGenerator, storeNotif } from "../../utils/misc";
 import { useDealApi } from "../../utils/hooks/useDealApi";
 import { useWeb3React } from "@web3-react/core";
 
@@ -30,6 +30,8 @@ interface RoomSidebarProps {
   onSetNotes: (data?: string) => void;
   onInitialize: () => void;
   onCreateRoom: (data?: any) => void;
+  offer?: boolean;
+  id?: string;
 }
 
 const RoomSidebar = (props: RoomSidebarProps) => {
@@ -38,7 +40,7 @@ const RoomSidebar = (props: RoomSidebarProps) => {
   const { ethAlias, ethAvatar } = useSelector((state: RootState) => state.user);
   const { collections } = useSelector((state: RootState) => state.room);
 
-  const { createRoom, createOffer } = useDealApi();
+  const { createRoom, createOffer, joinRoom, getRoom } = useDealApi();
   const { account } = useWeb3React();
 
   const navigate = useNavigate();
@@ -82,39 +84,73 @@ const RoomSidebar = (props: RoomSidebarProps) => {
     const { nfts, tokens, notes, onCreateRoom, onInitialize } = props;
     const roomName = guidGenerator();
     const id = ethers.utils.hashMessage(roomName);
-    const { success, errorMsg, data } = await createRoom(
-      roomName,
-      createOffer(
-        BigNumber.from(0),
-        account,
-        [],
-        [],
-        nfts.filter((nft) => nft.selected).map((nft) => nft.contractAddress),
-        nfts.filter((nft) => nft.selected).map((nft) => nft.tokenId),
-        [],
-        [],
-        []
-      ),
-      createOffer(
-        BigNumber.from(0),
-        account,
-        [],
-        [],
-        collections.map((nft) => nft.contractAddress),
-        collections.map((nft) => nft.tokenId),
-        [],
-        [],
-        []
-      )
-    );
-    if (success) {
-      onCreateRoom({ nfts, tokens, collections, note: notes, id: id });
-      setTimeout(() => {
-        onInitialize();
-        navigate(`/room/${id}`);
-      }, 0);
+    if (props.offer) {
+      if (!props.id) {
+        return;
+      }
+      console.log(props.id);
+      const roomData: any = await getRoom(props.id);
+      console.log(nfts.filter((nft) => nft.selected));
+      const { success, errorMsg, data } = await joinRoom(
+        props.id,
+        createOffer(
+          roomData.data.nonce.toString(),
+          account,
+          [],
+          [],
+          nfts.filter((nft) => nft.selected).map((nft) => nft.contractAddress),
+          nfts.filter((nft) => nft.selected).map((nft) => nft.tokenId),
+          [],
+          [],
+          []
+        )
+      );
+      if (success) {
+        onCreateRoom({ nfts, tokens, collections, note: notes, id: id });
+        setTimeout(() => {
+          onInitialize();
+          storeNotif("Swap Complete!", "You have successfully swapped NFTs!", "success");
+          navigate(`/`);
+        }, 0);
+      } else {
+        storeNotif("Error Swapping", errorMsg ? errorMsg : "", "danger");
+        console.log(errorMsg);
+      }
     } else {
-      console.log(errorMsg);
+      const { success, errorMsg, data } = await createRoom(
+        roomName,
+        createOffer(
+          BigNumber.from(0),
+          account,
+          [],
+          [],
+          nfts.filter((nft) => nft.selected).map((nft) => nft.contractAddress),
+          nfts.filter((nft) => nft.selected).map((nft) => nft.tokenId),
+          [],
+          [],
+          []
+        ),
+        createOffer(
+          BigNumber.from(0),
+          account,
+          [],
+          [],
+          collections.map((nft) => nft.contractAddress),
+          collections.map((nft) => nft.tokenId),
+          [],
+          [],
+          []
+        )
+      );
+      if (success) {
+        onCreateRoom({ nfts, tokens, collections, note: notes, id: id });
+        setTimeout(() => {
+          onInitialize();
+          navigate(`/room/${id}`);
+        }, 0);
+      } else {
+        console.log(errorMsg);
+      }
     }
   };
 
@@ -137,6 +173,9 @@ const RoomSidebar = (props: RoomSidebarProps) => {
             data={props.nfts}
             goToNext={props.goToNext}
             onSetNFTs={props.onSetNFTs}
+            offer={props.offer}
+            id={props.id}
+            onSubmit={handleMakeRoom}
           />
         );
       case "add-token":

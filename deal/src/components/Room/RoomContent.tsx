@@ -14,7 +14,7 @@ interface RoomContentProps {
 const RoomContent = (props: RoomContentProps) => {
   const navigate = useNavigate();
 
-  const [roomCreator, handleRoomCreator] = useState<string>();
+  const [roomCreator, handleRoomCreator] = useState<any>();
   const [offer, handleOffer] = useState<any>();
   const [metadata, handleMetadata] = useState<string>();
   const [nftMetadata, handleNftMetadata] = useState<NFTMetadata[]>([]);
@@ -29,38 +29,32 @@ const RoomContent = (props: RoomContentProps) => {
       return;
     }
 
-    (async () => {
+    setTimeout(async () => {
       const rc = await getRoomCreator(props.id);
-      handleRoomCreator(rc.host);
-      handleMetadata(rc.metadata);
+      handleRoomCreator(rc);
+    }, 100);
+  }, [account]);
 
-      const offer = await getOffer(props.id, rc.host);
+  useEffect(() => {
+    if (!roomCreator) {
+      return;
+    }
+    (async () => {
+      handleMetadata(roomCreator.metadata);
+
+      let offer = await getOffer(props.id, roomCreator.host);
       handleOffer(offer);
 
-      const nftObj = offer.data.erc721TokenIds.map((id: string, idx: number) => {
-        return {
-          contract_address: offer.data.erc721Tokens[idx],
-          tokenId: id
-        };
-      });
-
-      const nftmd = await getNFTMetadata(nftObj);
-      handleNftMetadata(nftmd);
-
-      {
-        const offer2 = await getRoom(props.id);
-        const nftObj2 = offer2.data.idealOffer.erc721TokenIds.map((id: string, idx: number) => {
-          return {
-            contract_address: offer2.data.idealOffer.erc721Tokens[idx],
-            tokenId: id
-          };
-        });
-
-        const nftmd2 = await getNFTMetadata(nftObj2);
-        handleIdealOfferNftMetadata(nftmd2);
+      if (!offer.success) {
+        setTimeout(async () => {
+          offer = await getOffer(props.id, roomCreator.host);
+          parseOffer(offer);
+        }, 500);
+      } else {
+        parseOffer(offer);
       }
     })();
-  }, [account]);
+  }, [roomCreator]);
 
   const onShareRoom = () => {
     copyStringToClipboard(window.location.href);
@@ -69,7 +63,32 @@ const RoomContent = (props: RoomContentProps) => {
 
   const onMakeAnOffer = () => {
     // TODO: make an offer
-    alert("Make an offer!");
+    navigate(`/offer/${props.id}`);
+  };
+
+  const parseOffer = async (offer: any) => {
+    const nftObj = offer.data.erc721TokenIds.map((id: string, idx: number) => {
+      return {
+        contract_address: offer.data.erc721Tokens[idx],
+        tokenId: id
+      };
+    });
+
+    const nftmd = await getNFTMetadata(nftObj);
+    handleNftMetadata(nftmd);
+
+    {
+      const offer2 = await getRoom(props.id);
+      const nftObj2 = offer2.data.idealOffer.erc721TokenIds.map((id: string, idx: number) => {
+        return {
+          contract_address: offer2.data.idealOffer.erc721Tokens[idx],
+          tokenId: id
+        };
+      });
+
+      const nftmd2 = await getNFTMetadata(nftObj2);
+      handleIdealOfferNftMetadata(nftmd2);
+    }
   };
 
   const onBackToEdit = () => {
@@ -87,6 +106,16 @@ const RoomContent = (props: RoomContentProps) => {
     // TODO: integrate api for cancel
     navigate("/");
   };
+
+  if (!roomCreator || !idealOfferNftMetadata) {
+    return (
+      <div className="h-screen w-full flex">
+        <svg className="animate-spin w-8 h-8 m-auto fill-current shrink-0" viewBox="0 0 16 16">
+          <path d="M8 16a7.928 7.928 0 01-3.428-.77l.857-1.807A6.006 6.006 0 0014 8c0-3.309-2.691-6-6-6a6.006 6.006 0 00-5.422 8.572l-1.806.859A7.929 7.929 0 010 8c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" />
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -113,9 +142,9 @@ const RoomContent = (props: RoomContentProps) => {
             <div className="z-10 relative w-full flex justify-center -mt-[2rem]">
               <button
                 className="h-[64px] rounded-[8px] w-[362px] px-[32px] text-white font-medium text-[18px] leading-[24px] bg-indigo-500 shadow-button"
-                onClick={stringEqualsIgnoreCase(roomCreator, account) ? onShareRoom : onMakeAnOffer}
+                onClick={stringEqualsIgnoreCase(roomCreator.host, account) ? onShareRoom : onMakeAnOffer}
               >
-                {stringEqualsIgnoreCase(roomCreator, account) ? "Share it!" : "Make an offer"}
+                {stringEqualsIgnoreCase(roomCreator.host, account) ? "Share it!" : "Make an offer"}
               </button>
             </div>
             {/* {stringEqualsIgnoreCase(roomCreator, account) && (
