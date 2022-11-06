@@ -71,7 +71,12 @@ export function useDealApi() {
     };
   };
 
-  const createRoom = async (roomName: string, hostOffer: Offer, idealOffer: Offer): Promise<ResponseObject> => {
+  const createRoom = async (
+    roomName: string,
+    hostOffer: Offer,
+    idealOffer: Offer,
+    metadata: string
+  ): Promise<ResponseObject> => {
     if (!instance) {
       return {
         success: false,
@@ -85,7 +90,7 @@ export function useDealApi() {
 
     const roomId = ethers.utils.hashMessage(roomName);
     await instance
-      .createRoom(roomId, hostOffer, idealOffer, "")
+      .createRoom(roomId, hostOffer, idealOffer, metadata)
       .then(async (tx: any) => {
         await tx.wait(1).then(() => {
           ret = { success: true, errorMsg: "" };

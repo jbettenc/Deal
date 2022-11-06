@@ -139,7 +139,8 @@ const RoomSidebar = (props: RoomSidebarProps) => {
           [],
           [],
           []
-        )
+        ),
+        notes
       );
       if (success) {
         onCreateRoom({ nfts, tokens, collections, note: notes, id: id });
