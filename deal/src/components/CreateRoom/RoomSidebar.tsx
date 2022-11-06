@@ -9,6 +9,10 @@ import CollectionSidebar from "./Sidebar/CollectionSidebar";
 import UserMenu from "../UserMenu";
 import { RootState } from "../../store/root";
 import { useSelector } from "react-redux";
+import { BigNumber, ethers } from "ethers";
+import { guidGenerator } from "../../utils/misc";
+import { useDealApi } from "../../utils/hooks/useDealApi";
+import { useWeb3React } from "@web3-react/core";
 
 const EMPTY_TEXT = "No offer yet. Select NFTs that you want to swap.";
 
@@ -16,7 +20,7 @@ interface RoomSidebarProps {
   loading: boolean;
   step: IStep;
   notes: string;
-  nfts: any[];
+  nfts: NFTMetadata[];
   tokens: any[];
   goToNext: () => void;
   goToPrev: () => void;
@@ -33,6 +37,9 @@ const RoomSidebar = (props: RoomSidebarProps) => {
 
   const { ethAlias, ethAvatar } = useSelector((state: RootState) => state.user);
   const { collections } = useSelector((state: RootState) => state.room);
+
+  const { createRoom, createOffer } = useDealApi();
+  const { account } = useWeb3React();
 
   const navigate = useNavigate();
 
@@ -68,13 +75,47 @@ const RoomSidebar = (props: RoomSidebarProps) => {
     handleSubMenuActive(false);
   };
 
-  const handleMakeRoom = () => {
+  const handleMakeRoom = async () => {
+    if (!account) {
+      return;
+    }
     const { nfts, tokens, notes, onCreateRoom, onInitialize } = props;
-    onCreateRoom({ nfts, tokens, collections, note: notes, id: "new" });
-    setTimeout(() => {
-      onInitialize();
-      navigate("/create/new"); // TODO: open the room page instead of it
-    }, 0);
+    const roomName = guidGenerator();
+    const id = ethers.utils.hashMessage(roomName);
+    const { success, errorMsg, data } = await createRoom(
+      roomName,
+      createOffer(
+        BigNumber.from(0),
+        account,
+        [],
+        [],
+        nfts.filter((nft) => nft.selected).map((nft) => nft.contractAddress),
+        nfts.filter((nft) => nft.selected).map((nft) => nft.tokenId),
+        [],
+        [],
+        []
+      ),
+      createOffer(
+        BigNumber.from(0),
+        account,
+        [],
+        [],
+        collections.map((nft) => nft.contractAddress),
+        collections.map((nft) => nft.tokenId),
+        [],
+        [],
+        []
+      )
+    );
+    if (success) {
+      onCreateRoom({ nfts, tokens, collections, note: notes, id: id });
+      setTimeout(() => {
+        onInitialize();
+        navigate(`/room/${id}`);
+      }, 0);
+    } else {
+      console.log(errorMsg);
+    }
   };
 
   const handleBack = () => {

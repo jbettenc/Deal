@@ -1,17 +1,18 @@
 import { useWeb3React } from "@web3-react/core";
-import { Contract, ethers } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
+import deal_abi from "../../abi/Deal.json";
 
 interface Offer {
   from: string;
-  offerNonce: number;
-  erc20Tokens: number[];
-  erc20TokenAmounts: number[];
-  erc721Tokens: number[];
-  erc721TokenIds: number[];
-  erc1155Tokens: number[];
-  erc1155TokenIds: number[];
-  erc1155TokenAmounts: number[];
+  offerNonce: BigNumber;
+  erc20Tokens: string[];
+  erc20TokenAmounts: string[];
+  erc721Tokens: string[];
+  erc721TokenIds: string[];
+  erc1155Tokens: string[];
+  erc1155TokenIds: string[];
+  erc1155TokenAmounts: string[];
 }
 
 interface ResponseObject {
@@ -20,10 +21,9 @@ interface ResponseObject {
   data?: any;
 }
 
-const DEAL_CONTRACT_ADDRESS = "";
-const deal_abi = { abi: "" };
+const DEAL_CONTRACT_ADDRESS = "0x3020e9ed18a873da5dd3a9c8f14d92d6c4802bd0";
 
-export function useDealApi(): any {
+export function useDealApi() {
   const { active, library } = useWeb3React();
   const [contract, handleContract] = useState<Contract>();
   const [instance, handleInstance] = useState<Contract>();
@@ -31,7 +31,8 @@ export function useDealApi(): any {
   // Create a contract (for read calls)
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
-      "https://eth-mainnet.alchemyapi.io/v2/xTrIufa8bBMhQmEc14yrjDOV0yKIka9r"
+      "https://goerli.infura.io/v3/59e38e7a0505462d810e0ac606665fd1"
+      // "https://eth-mainnet.alchemyapi.io/v2/xTrIufa8bBMhQmEc14yrjDOV0yKIka9r" // mainnet
     );
     const dealContract = new ethers.Contract(DEAL_CONTRACT_ADDRESS, deal_abi.abi, provider);
     handleContract(dealContract);
@@ -47,16 +48,18 @@ export function useDealApi(): any {
   }, [contract, active, library]);
 
   const createOffer = (
+    offerNonce: BigNumber,
     from: string,
-    erc20Tokens: number[],
-    erc20TokenAmounts: number[],
-    erc721Tokens: number[],
-    erc721TokenIds: number[],
-    erc1155Tokens: number[],
-    erc1155TokenIds: number[],
-    erc1155TokenAmounts: number[]
+    erc20Tokens: string[],
+    erc20TokenAmounts: string[],
+    erc721Tokens: string[],
+    erc721TokenIds: string[],
+    erc1155Tokens: string[],
+    erc1155TokenIds: string[],
+    erc1155TokenAmounts: string[]
   ) => {
     return {
+      offerNonce,
       from,
       erc20Tokens,
       erc20TokenAmounts,
@@ -82,13 +85,14 @@ export function useDealApi(): any {
 
     const roomId = ethers.utils.hashMessage(roomName);
     await instance
-      .createRoom(roomId, hostOffer, idealOffer)
+      .createRoom(roomId, hostOffer, idealOffer, "")
       .then(async (tx: any) => {
         await tx.wait(1).then(() => {
           ret = { success: true, errorMsg: "" };
         });
       })
       .catch((err: any) => {
+        console.log(err);
         ret = { success: false, errorMsg: err.message ? err.message : err };
       });
 
@@ -230,8 +234,8 @@ export function useDealApi(): any {
     return ret;
   };
 
-  const getOffer = async (roomName: string, party: string): Promise<ResponseObject> => {
-    if (!instance) {
+  const getOffer = async (roomId: string, party: string): Promise<ResponseObject> => {
+    if (!contract) {
       return {
         success: false,
         errorMsg: "Please refresh your page and connect your wallet."
@@ -242,8 +246,62 @@ export function useDealApi(): any {
       success: false
     };
 
-    const roomId = ethers.utils.hashMessage(roomName);
-    const offer = await instance.getOffer(roomId, party).catch((err: any) => {
+    const offer = await contract.getOffer(roomId, party).catch((err: any) => {
+      ret = { success: false, errorMsg: err.message ? err.message : err };
+    });
+
+    if (offer) {
+      ret = { success: true, errorMsg: "", data: offer };
+    }
+
+    return ret;
+  };
+
+  const getRoomCreator = async (id: string) => {
+    const url = "https://api.studio.thegraph.com/query/33336/deal-goerli/v0.0.3";
+
+    const graphQlQuery = `{
+      room(id: "${id}") {
+        host
+        metadata
+        nonce
+      }
+    }`;
+
+    let ret: any = "";
+
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        query: graphQlQuery
+      })
+    })
+      .then((res) => res.json())
+      .then(async (result) => {
+        if (result?.data) {
+          ret = result.data.room;
+        }
+      });
+
+    return ret;
+  };
+
+  const getRoom = async (roomId: string) => {
+    if (!contract) {
+      return {
+        success: false,
+        errorMsg: "Please refresh your page and connect your wallet."
+      };
+    }
+
+    let ret: ResponseObject = {
+      success: false
+    };
+
+    const offer = await contract.rooms(roomId).catch((err: any) => {
       ret = { success: false, errorMsg: err.message ? err.message : err };
     });
 
@@ -262,6 +320,8 @@ export function useDealApi(): any {
     exitRoom,
     updateOffer,
     swap,
-    getOffer
+    getOffer,
+    getRoomCreator,
+    getRoom
   };
 }

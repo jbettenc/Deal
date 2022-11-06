@@ -34,7 +34,9 @@ const NFTCard = (props: NFTCardProps) => {
       <div className="mt-[9px] text-[10px] leading-[10px] text-white font-normal" style={props.fontStyle}>
         {nft.name}
       </div>
-      <div className="mt-[4px] text-[8px] leading-[8px] text-white font-light break-words">#{nft.tokenId}</div>
+      <div className="mt-[4px] text-[8px] leading-[8px] text-white font-light break-words">
+        #{nft.tokenId.toString()}
+      </div>
     </div>
   );
 };

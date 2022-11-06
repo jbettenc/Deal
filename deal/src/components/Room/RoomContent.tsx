@@ -1,24 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyOfferContent from "./MyOfferContent";
 import LookingForContent from "./LookingForContent";
+import { useDealApi } from "../../utils/hooks/useDealApi";
+import { useWeb3React } from "@web3-react/core";
+import { getNFTMetadata } from "../../utils/web3/queries";
+import { copyStringToClipboard, storeNotif, stringEqualsIgnoreCase } from "../../utils/misc";
 
 interface RoomContentProps {
-  RoomData: any;
-  id?: string;
-  isNew?: boolean;
-  onSetNFTs: (data?: any[]) => void;
-  onSetTokens: (data?: any[]) => void;
-  onSetCollections: (data?: any[]) => void;
-  onSetNotes: (data?: string) => void;
+  id: string;
 }
 
 const RoomContent = (props: RoomContentProps) => {
   const navigate = useNavigate();
 
+  const [roomCreator, handleRoomCreator] = useState<string>();
+  const [offer, handleOffer] = useState<any>();
+  const [metadata, handleMetadata] = useState<string>();
+  const [nftMetadata, handleNftMetadata] = useState<NFTMetadata[]>([]);
+  const [idealOfferNftMetadata, handleIdealOfferNftMetadata] = useState<NFTMetadata[]>();
+
+  const { getOffer, getRoomCreator, getRoom } = useDealApi();
+
+  const { account } = useWeb3React();
+
+  useEffect(() => {
+    if (!account) {
+      return;
+    }
+
+    (async () => {
+      const rc = await getRoomCreator(props.id);
+      handleRoomCreator(rc.host);
+      handleMetadata(rc.metadata);
+
+      const offer = await getOffer(props.id, rc.host);
+      handleOffer(offer);
+
+      const nftObj = offer.data.erc721TokenIds.map((id: string, idx: number) => {
+        return {
+          contract_address: offer.data.erc721Tokens[idx],
+          tokenId: id
+        };
+      });
+
+      const nftmd = await getNFTMetadata(nftObj);
+      handleNftMetadata(nftmd);
+
+      {
+        const offer2 = await getRoom(props.id);
+        const nftObj2 = offer2.data.idealOffer.erc721TokenIds.map((id: string, idx: number) => {
+          return {
+            contract_address: offer2.data.idealOffer.erc721Tokens[idx],
+            tokenId: id
+          };
+        });
+
+        const nftmd2 = await getNFTMetadata(nftObj2);
+        handleIdealOfferNftMetadata(nftmd2);
+      }
+    })();
+  }, [account]);
+
   const onShareRoom = () => {
-    // TODO: share room!
-    alert("Share new deal!");
+    copyStringToClipboard(window.location.href);
+    storeNotif("Link Copied!", "", "info");
   };
 
   const onMakeAnOffer = () => {
@@ -28,11 +74,11 @@ const RoomContent = (props: RoomContentProps) => {
 
   const onBackToEdit = () => {
     // TODO: integrate api for edit
-    const { RoomData, onSetNFTs, onSetCollections, onSetTokens, onSetNotes } = props;
-    onSetNFTs(RoomData.nfts);
-    onSetNotes(RoomData.note);
-    onSetTokens(RoomData.tokens);
-    onSetCollections(RoomData.collections);
+    const { id } = props;
+    // onSetNFTs(RoomData.nfts);
+    // onSetNotes(RoomData.note);
+    // onSetTokens(RoomData.tokens);
+    // onSetCollections(RoomData.collections);
     // TODO: go to Edit
     navigate("/create");
   };
@@ -44,18 +90,21 @@ const RoomContent = (props: RoomContentProps) => {
 
   return (
     <div className="w-full">
-      <div className="h-full flex flex-col pt-[64px]">
-        <div className="w-full font-bold text-[36px] leading-[100px] text-center text-gray-22 px-[52px]">
+      <div className="h-full flex flex-col pt-[8rem]">
+        {/* <div className="w-full font-bold text-[36px] leading-[100px] text-center text-gray-22 px-[52px]">
           {props.isNew ? "Congratulations! You just proposed a deal!" : `Room #${props.id}`}
-        </div>
+        </div> */}
         <div className="flex justify-center items-center w-full h-full max-h-[556px] mt-[24px] relative px-[52px]">
           <div className="absolute w-full h-full max-w-[876px] max-h-[556px] bg-gray-520 shadow-room rounded-[12px] -rotate-3 mr-[12px]" />
           <div className="z-[1] w-full h-full max-w-[876px] max-h-[556px] bg-gray-520 shadow-room rounded-[12px] border border-gray-25">
             <div className="w-full h-[304px] bg-gray-25 py-[24px] px-[44px] rounded-t-[12px]">
-              <MyOfferContent nfts={props.RoomData?.nfts || []} tokens={props.RoomData?.tokens || []} />
+              <MyOfferContent nfts={nftMetadata} tokens={[]} />
             </div>
             <div className="w-full h-[252px] py-[24px] px-[44px] rounded-b-[12px]">
-              <LookingForContent collections={props.RoomData?.collections || []} note={props.RoomData?.note || ""} />
+              <LookingForContent
+                collections={idealOfferNftMetadata ? idealOfferNftMetadata : []}
+                note={metadata ? metadata : ""}
+              />
             </div>
           </div>
         </div>
@@ -64,12 +113,12 @@ const RoomContent = (props: RoomContentProps) => {
             <div className="z-10 relative w-full flex justify-center -mt-[2rem]">
               <button
                 className="h-[64px] rounded-[8px] w-[362px] px-[32px] text-white font-medium text-[18px] leading-[24px] bg-indigo-500 shadow-button"
-                onClick={props.isNew ? onShareRoom : onMakeAnOffer}
+                onClick={stringEqualsIgnoreCase(roomCreator, account) ? onShareRoom : onMakeAnOffer}
               >
-                {props.isNew ? "Share it!" : "Make an offer"}
+                {stringEqualsIgnoreCase(roomCreator, account) ? "Share it!" : "Make an offer"}
               </button>
             </div>
-            {props.isNew && (
+            {/* {stringEqualsIgnoreCase(roomCreator, account) && (
               <div className="z-10 relative w-full flex justify-center mt-[12px]">
                 <div className="w-[362px] flex justify-between items-center">
                   <button
@@ -86,7 +135,7 @@ const RoomContent = (props: RoomContentProps) => {
                   </button>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

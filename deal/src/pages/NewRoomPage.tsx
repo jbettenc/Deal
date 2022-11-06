@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../store/root";
 import Room from "../components/Room";
 
-function NewRoomPage() {
+function RoomPage() {
   const newRoomId = useSelector((state: RootState) => state.room.new.id);
   const navigate = useNavigate();
 
@@ -21,4 +21,4 @@ function NewRoomPage() {
   );
 }
 
-export default NewRoomPage;
+export default RoomPage;

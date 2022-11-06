@@ -599,3 +599,35 @@ export async function getCollections() {
   ];
   return ret;
 }
+
+export async function getNFTMetadata(nfts: DuneObject[]) {
+  const nftMetadata: NFTMetadata[] = [];
+  for (const nft of nfts) {
+    try {
+      await fetch(`https://deep-index.moralis.io/api/v2/nft/${nft.contract_address}/${nft.tokenId}/`, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "X-API-Key": "M73LU41x0KUFj1SHyMIDrrzPTpXpKggKHhLEmwHwmiH4A2ARO8LlkaIJzBFHTlEd"
+        }
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result) {
+            const metadata = JSON.parse(result.metadata);
+            nftMetadata.push({
+              contractAddress: nft.contract_address,
+              tokenId: nft.tokenId,
+              name: metadata?.name ? metadata.name : "",
+              description: result.description,
+              image: metadata ? (metadata.image ? metadata.image : metadata.image_url) : ""
+            });
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  return nftMetadata;
+}

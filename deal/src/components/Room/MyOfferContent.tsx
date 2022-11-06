@@ -9,7 +9,7 @@ const MyOfferContent = (props: MyOfferContentProps) => {
   const renderNFTs = (item: any, index: number) => {
     return (
       <div
-        key={`offer-nft-${item.id}-${index}`}
+        key={`offer-nft-${item.id ? item.id : item.tokenId}-${index}`}
         className="absolute top-0"
         style={{
           left: `${index * 62}px`,
@@ -22,8 +22,15 @@ const MyOfferContent = (props: MyOfferContentProps) => {
   };
   const renderTokens = (item: any, index: number) => {
     return (
-      <div key={`token-${item.token.name}-${index}`} className="flex w-full justify-between items-center mb-[18px]">
-        <img src={item.token.icon} className="w-[18px]" alt={item.token.name} />
+      <div
+        key={`token-${item.token ? item.token.name : item.name}-${index}`}
+        className="flex w-full justify-between items-center mb-[18px]"
+      >
+        <img
+          src={item.token ? item.token.icon : item.image}
+          className="w-[18px]"
+          alt={item.token ? item.token.name : item.name}
+        />
         <div className="text-white text-[16px] leading-[24px] font-bold">
           {item.value} {item.token.name}
         </div>

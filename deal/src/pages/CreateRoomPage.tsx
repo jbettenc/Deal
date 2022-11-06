@@ -18,7 +18,6 @@ function CreateRoomPage() {
 
     handleQueryRunning(true);
     (async () => {
-      console.log("first");
       dispatch(setNfts(await getUserNFTs("0x2B7F0615979eddDeAF83BFEC23F66fb5a6D177A4")));
       dispatch(setTokens(await getUserTokens("0x2B7F0615979eddDeAF83BFEC23F66fb5a6D177A4")));
       dispatch(setCollections(await getCollections()));

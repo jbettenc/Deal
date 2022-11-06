@@ -1,3 +1,5 @@
+import { NOTIFICATION_TYPE, Store } from "react-notifications-component";
+
 export function range(n: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
   return ((n - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 }
@@ -82,4 +84,48 @@ export function getRandomId(length: number): string {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+export function guidGenerator() {
+  const S4 = function () {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  };
+  return S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4();
+}
+
+export function storeNotif(subject: string, message: string, type: NOTIFICATION_TYPE) {
+  Store.addNotification({
+    title: subject,
+    message: message ? message : " ",
+    type: type,
+    insert: "top",
+    container: "bottom-right",
+    animationIn: ["animated", "fadeIn"],
+    animationOut: ["animated", "fadeOut"],
+    dismiss: {
+      duration: 10000,
+      onScreen: true,
+      showIcon: true,
+      click: false,
+      touch: false
+    }
+  });
+}
+
+export function copyStringToClipboard(str: string) {
+  // Create new element
+  const el = document.createElement("textarea");
+  // Set value (string to be copied)
+  el.value = str;
+  // Set non-editable to avoid focus and move outside of view
+  el.setAttribute("readonly", "");
+  // @ts-ignore
+  el.style = { position: "absolute", left: "-9999px" };
+  document.body.appendChild(el);
+  // Select text inside element
+  el.select();
+  // Copy text to clipboard
+  document.execCommand("copy");
+  // Remove temporary element
+  document.body.removeChild(el);
 }
