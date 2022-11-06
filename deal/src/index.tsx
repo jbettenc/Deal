@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { Web3ReactProvider } from "@web3-react/core";
 import { BrowserRouter as Router } from "react-router-dom";
 import { store } from "./store/root";
+import { MoralisProvider } from "react-moralis";
 
 const getLibrary = (provider: ExternalProvider) => {
   const library = new Web3Provider(provider);
@@ -23,7 +24,12 @@ root.render(
     <Provider store={store}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router basename={""}>
-          <App />
+          <MoralisProvider
+            serverUrl="https://72xiymgaxjuo.grandmoralis.com:2053/server"
+            appId="VH3iXZXpMSFFh9PD97GwmRtfm9ZenaknYbakXc0q"
+          >
+            <App />
+          </MoralisProvider>
         </Router>
       </Web3ReactProvider>
     </Provider>

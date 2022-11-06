@@ -2,6 +2,7 @@ import { useWeb3React } from "@web3-react/core";
 import { BigNumber, Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import deal_abi from "../../abi/Deal.json";
+import { useMoralisFile } from "react-moralis";
 
 interface Offer {
   from: string;
@@ -28,15 +29,33 @@ export function useDealApi() {
   const [contract, handleContract] = useState<Contract>();
   const [instance, handleInstance] = useState<Contract>();
 
+  const { saveFile } = useMoralisFile();
+
+  const getProviderUrl = async () => {
+    const { chainId } = await library.getNetwork();
+    switch (chainId) {
+      case 1:
+        return "https://eth-mainnet.alchemyapi.io/v2/xTrIufa8bBMhQmEc14yrjDOV0yKIka9r";
+      case 5:
+        return "https://goerli.infura.io/v3/59e38e7a0505462d810e0ac606665fd1";
+      case 420:
+        return "https://optimism-goerli.infura.io/v3/59e38e7a0505462d810e0ac606665fd1";
+      case 80001:
+        return "https://polygon-mumbai.infura.io/v3/59e38e7a0505462d810e0ac606665fd1";
+    }
+  };
+
   // Create a contract (for read calls)
   useEffect(() => {
-    const provider = new ethers.providers.JsonRpcProvider(
-      "https://goerli.infura.io/v3/59e38e7a0505462d810e0ac606665fd1"
-      // "https://eth-mainnet.alchemyapi.io/v2/xTrIufa8bBMhQmEc14yrjDOV0yKIka9r" // mainnet
-    );
-    const dealContract = new ethers.Contract(DEAL_CONTRACT_ADDRESS, deal_abi.abi, provider);
-    handleContract(dealContract);
-  }, []);
+    if (!library) {
+      return;
+    }
+    (async () => {
+      const provider = new ethers.providers.JsonRpcProvider(await getProviderUrl());
+      const dealContract = new ethers.Contract(DEAL_CONTRACT_ADDRESS, deal_abi.abi, provider);
+      handleContract(dealContract);
+    })();
+  }, [library]);
 
   // Connect signer to Deal contract (for write calls)
   useEffect(() => {
@@ -87,6 +106,19 @@ export function useDealApi() {
     let ret: ResponseObject = {
       success: false
     };
+
+    const file = new File([metadata], "metadata.txt");
+    const b64 = btoa(metadata);
+    saveFile(
+      "metadata.txt",
+      // @ts-ignore
+      { b64 },
+      {
+        type: "base64",
+        saveIPFS: true,
+        onError: (error) => console.log(error)
+      }
+    );
 
     const roomId = ethers.utils.hashMessage(roomName);
     await instance

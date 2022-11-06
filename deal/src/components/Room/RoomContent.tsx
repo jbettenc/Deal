@@ -90,7 +90,6 @@ const RoomContent = (props: RoomContentProps) => {
       });
 
       const nftmd2 = await getNFTMetadata(nftObj2);
-      console.log(nftmd2);
       handleIdealOfferNftMetadata(nftmd2);
     }
   };
